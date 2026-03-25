@@ -1,103 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anton Glenbovitch — AI Systems Engineer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: auto;
-            padding: 40px 20px;
-            line-height: 1.6;
-            color: #111;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anton Glenbovitch — AI Systems Engineer</title>
+
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        background: #f5f7fa;
+        color: #111;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 40px 20px;
+    }
+
+    .header {
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 32px;
+    }
+
+    .tagline {
+        color: #555;
+        margin-top: 8px;
+        font-size: 16px;
+    }
+
+    .intro {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #333;
+        max-width: 700px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+        margin-top: 0;
+        font-size: 18px;
+    }
+
+    ul {
+        padding-left: 18px;
+        margin: 10px 0 0 0;
+    }
+
+    .full-width {
+        grid-column: span 2;
+    }
+
+    .links a {
+        margin-right: 15px;
+        text-decoration: none;
+        color: #0066cc;
+    }
+
+    .links a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .grid {
+            grid-template-columns: 1fr;
         }
-        h1, h2 {
-            margin-top: 30px;
+        .full-width {
+            grid-column: span 1;
         }
-        .tagline {
-            font-size: 18px;
-            margin-bottom: 30px;
-            color: #444;
-        }
-        .section {
-            margin-top: 40px;
-        }
-    </style>
+    }
+</style>
+
 </head>
+
 <body>
 
-    <h1>Anton Glenbovitch</h1>
-    <div class="tagline">
-        Senior AI Engineer — Production LLM Systems (RAG, Orchestration, Architecture)
+<div class="container">
+
+    <div class="header">
+        <h1>Anton Glenbovitch</h1>
+        <div class="tagline">
+            Senior AI Engineer — Production LLM Systems (RAG, Orchestration, Architecture)
+        </div>
+
+        <div class="intro">
+            I design and build production-grade AI systems using LLMs and retrieval architectures.
+            My focus is on reliability, performance, and integrating AI into real-world systems — not demos.
+        </div>
     </div>
 
-    <p>
-        I design and build production-grade AI systems using LLMs and retrieval architectures.
-        My focus is not on model experimentation, but on making AI systems reliable, scalable, and usable in real-world environments.
-    </p>
+    <div class="grid">
 
-    <div class="section">
-        <h2>Core Focus</h2>
-        <ul>
-            <li>End-to-end AI system architecture (LLM + RAG)</li>
-            <li>Reliable and evaluatable retrieval pipelines</li>
-            <li>Cost, latency, and performance optimization</li>
-            <li>LLM orchestration and agent-based workflows</li>
-            <li>Enterprise integration (APIs, data systems, authentication)</li>
-        </ul>
-    </div>
+        <div class="card">
+            <h2>Core Focus</h2>
+            <ul>
+                <li>End-to-end AI system architecture (LLM + RAG)</li>
+                <li>Evaluatable and reliable retrieval pipelines</li>
+                <li>Cost, latency, and performance optimization</li>
+                <li>LLM orchestration and agent workflows</li>
+                <li>Enterprise integration (APIs, data, auth)</li>
+            </ul>
+        </div>
 
-    <div class="section">
-        <h2>Engineering Perspective</h2>
-        <p>
-            In production AI systems, the primary challenges are not model selection, but data quality,
-            retrieval accuracy, and system design.
-        </p>
-        <p>
-            Reliable systems require evaluation frameworks, guardrails, and continuous monitoring to
-            control hallucinations, maintain consistency, and manage cost and latency at scale.
-        </p>
-    </div>
+        <div class="card">
+            <h2>Engineering Perspective</h2>
+            <p>
+                In production AI systems, the main challenges are not model selection, but data quality,
+                retrieval accuracy, and system design.
+            </p>
+            <p>
+                Reliable systems require evaluation, guardrails, and continuous monitoring to control
+                hallucinations and maintain consistency at scale.
+            </p>
+        </div>
 
-    <div class="section">
-        <h2>Featured Project</h2>
-        <p><strong>Enterprise Claim AI Platform</strong></p>
-        <p>
-            A production-oriented AI system for insurance claim analysis using RAG architecture,
-            vector retrieval, and LLM reasoning.
-        </p>
-        <p>
-            Focus areas: retrieval accuracy, system reliability, and scalable deployment on AWS.
-        </p>
-        <p>
-            <a href="https://github.com/AntonGlenbovitch" target="_blank">View on GitHub</a>
-        </p>
-    </div>
+        <div class="card full-width">
+            <h2>Featured Project — Enterprise Claim AI Platform</h2>
+            <p>
+                A production-oriented AI system for insurance claim analysis using RAG architecture,
+                vector retrieval, and LLM reasoning.
+            </p>
+            <p>
+                Focus areas: retrieval accuracy, system reliability, and scalable AWS deployment.
+            </p>
+            <p>
+                <a href="https://github.com/AntonGlenbovitch" target="_blank">
+                    View Project on GitHub →
+                </a>
+            </p>
+        </div>
 
-    <div class="section">
-        <h2>Technical Stack</h2>
-        <p>
-            Python • AWS (Bedrock, Lambda, OpenSearch) • Vector Databases • RAG • LLM APIs • REST APIs • Cloud Architecture
-        </p>
-    </div>
+        <div class="card">
+            <h2>Technical Stack</h2>
+            <p>
+                Python • AWS (Bedrock, Lambda, OpenSearch) • Vector DBs • RAG • LLM APIs • REST APIs
+            </p>
+        </div>
 
-    <div class="section">
-        <h2>Experience</h2>
-        <p>
-            20+ years building enterprise systems at Yale University and as an independent consultant,
-            spanning backend systems, data platforms, and AI-driven applications.
-        </p>
-    </div>
+        <div class="card">
+            <h2>Experience</h2>
+            <p>
+                20+ years building enterprise systems at Yale University and as an independent consultant,
+                across backend systems, data platforms, and AI applications.
+            </p>
+        </div>
 
-    <div class="section">
-        <h2>Links</h2>
-        <p>
-            <a href="https://github.com/AntonGlenbovitch">GitHub</a> |
+        <div class="card full-width links">
+            <h2>Links</h2>
+            <a href="https://github.com/AntonGlenbovitch">GitHub</a>
             <a href="https://linkedin.com">LinkedIn</a>
-        </p>
+        </div>
+
     </div>
+
+</div>
 
 </body>
 </html>
