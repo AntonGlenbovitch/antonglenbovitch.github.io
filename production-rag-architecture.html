@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Production RAG Architecture – Anton Glenbovitch</title>
+
+<meta name="description" content="Production-grade RAG (Retrieval-Augmented Generation) architecture including ingestion, vector search, evaluation, and LLM orchestration on AWS.">
+
+<link rel="canonical" href="https://antonglenbovitch.com/rag-architecture.html">
+
+<meta property="og:title" content="Production RAG Architecture – Anton Glenbovitch">
+<meta property="og:description" content="End-to-end design of scalable RAG systems with evaluation, guardrails, and AWS deployment.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://antonglenbovitch.com/rag-architecture.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Production RAG Architecture",
+  "author": {
+    "@type": "Person",
+    "name": "Anton Glenbovitch"
+  }
+}
+</script>
+
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    background: #f5f7fa;
+    color: #111;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #2563eb;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.section {
+    margin-top: 30px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-top: 15px;
+}
+
+.diagram-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-top: 15px;
+    text-align: center;
+}
+
+.diagram-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.diagram-caption {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+ul {
+    padding-left: 18px;
+}
+
+.back-link {
+    margin-top: 30px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Production RAG Architecture</h1>
+
+    <div class="subtitle">
+        End-to-End Design of Scalable LLM Systems (Retrieval-Augmented Generation)
+    </div>
+
+    <p>
+        This page outlines a production-grade Retrieval-Augmented Generation (RAG) system designed for reliability,
+        evaluation, and real-world deployment. The focus is not on model selection, but on retrieval accuracy,
+        system orchestration, and operational control.
+    </p>
+
+    <div class="section">
+        <h2>1. System Overview</h2>
+
+        <div class="card">
+            <ul>
+                <li>Frontend → API Layer → AI Orchestrator</li>
+                <li>Retrieval Layer (Vector Search + Metadata Filtering)</li>
+                <li>LLM Reasoning Layer</li>
+                <li>Evaluation & Guardrails</li>
+                <li>Observability & Feedback Loop</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- DIAGRAM SECTION -->
+    <div class="section">
+        <h2>Architecture Diagram</h2>
+
+        <div class="diagram-card">
+            <img src="production-rag-architecture-diagram.png" 
+                 alt="Production RAG Architecture Diagram showing indexing, retrieval, hybrid search, reranking, and generation layers">
+
+            <div class="diagram-caption">
+                Classic vs Advanced RAG: expanded indexing, hybrid retrieval (dense + sparse),
+                metadata enrichment, reranking, and answer synthesis for production-grade systems.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Ingestion Pipeline</h2>
+
+        <div class="card">
+            <ul>
+                <li>Document parsing (PDF, HTML, JSON, DB sources)</li>
+                <li>Chunking strategy (semantic + token-based)</li>
+                <li>Metadata extraction (source, timestamps, access control)</li>
+                <li>Embedding generation</li>
+                <li>Vector storage + raw document storage</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. Retrieval Layer</h2>
+
+        <div class="card">
+            <ul>
+                <li>Vector similarity search (top-k retrieval)</li>
+                <li>Hybrid retrieval (keyword + vector)</li>
+                <li>Metadata filtering (security, recency, context)</li>
+                <li>Re-ranking for precision improvement</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. LLM Orchestration</h2>
+
+        <div class="card">
+            <ul>
+                <li>Prompt construction with retrieved context</li>
+                <li>Tool usage and agent workflows</li>
+                <li>Multi-step reasoning pipelines</li>
+                <li>Response synthesis and formatting</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. Evaluation & Guardrails</h2>
+
+        <div class="card">
+            <ul>
+                <li>Faithfulness / grounding checks</li>
+                <li>Hallucination detection</li>
+                <li>Relevance scoring</li>
+                <li>Policy enforcement and safety filters</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Observability</h2>
+
+        <div class="card">
+            <ul>
+                <li>Request tracing (end-to-end pipeline visibility)</li>
+                <li>Latency monitoring</li>
+                <li>Retrieval performance metrics (recall@k, precision@k)</li>
+                <li>User feedback loop for continuous improvement</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. AWS Reference Architecture</h2>
+
+        <div class="card">
+            <ul>
+                <li>Frontend → API Gateway</li>
+                <li>Lambda / ECS for orchestration</li>
+                <li>Amazon Bedrock for LLMs</li>
+                <li>OpenSearch / Pinecone for vector storage</li>
+                <li>S3 for document storage</li>
+                <li>Step Functions for workflow orchestration</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Key Engineering Insight</h2>
+
+        <div class="card">
+            <p>
+                Production systems require measurable retrieval,
+                controlled orchestration, and continuous feedback loops.
+            </p>
+        </div>
+    </div>
+
+    <div class="back-link">
+        <a href="https://antonglenbovitch.com/">← Back to Home</a>
+    </div>
+
+</div>
+
+</body>
+</html>

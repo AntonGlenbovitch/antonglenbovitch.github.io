@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG Evaluation Framework – Anton Glenbovitch</title>
+  <meta name="description" content="Open source evaluation framework for RAG systems. Automated metrics + human-in-the-loop validation for production RAG pipelines.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">AG</a>
+      <ul class="nav-links">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/blog/">Articles</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section style="padding: 60px 0 40px 0;">
+      <a href="/#projects" style="color: var(--primary); font-weight: 500; margin-bottom: 20px; display: inline-block;">← Back to Projects</a>
+      <h1>RAG Evaluation Framework</h1>
+      <p class="tagline" style="margin-top: 8px; font-size: 16px;">Comprehensive evaluation for RAG systems • Open source • Production-ready • Pytest integration</p>
+    </section>
+
+    <section class="section">
+      <div class="grid full-width">
+        <div class="card featured">
+          <h3 style="margin-top: 0;">Quick Stats</h3>
+          <div class="metrics">
+            <div class="metric">
+              <span class="metric-label">Metrics Supported</span>
+              <span class="metric-value">12+ (ROUGE, BERTScore, custom)</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Human Labeling Integration</span>
+              <span class="metric-value">Built-in UI + CSV export</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Benchmark Datasets</span>
+              <span class="metric-value">SQuAD, Natural Questions, custom</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">GitHub Stars</span>
+              <span class="metric-value">150+ (open source)</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Active Users</span>
+              <span class="metric-value">50+ companies</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Overview</h2>
+
+      <p>RAG Evaluation Framework is an open-source Python library for comprehensively evaluating retrieval-augmented generation (RAG) pipelines. It combines automated metrics with human-in-the-loop validation to measure retrieval quality, generation quality, and hallucination rates in production RAG systems.</p>
+
+      <h3>Problem Statement</h3>
+      <p>Evaluating RAG systems is harder than evaluating traditional ML models:</p>
+      <ul>
+        <li><strong>Multiple components:</strong> Evaluation must cover retrieval (are we getting the right documents?), ranking (is the ranking good?), and generation (does the LLM produce quality output?)</li>
+        <li><strong>Automated metrics fail:</strong> ROUGE and BERTScore catch obvious issues but miss domain-specific nuances. A claim summary might score high on ROUGE but miss critical coverage exclusions.</li>
+        <li><strong>Human labels are essential:</strong> Need domain experts to validate correctness, but manual labeling is expensive and slow</li>
+        <li><strong>Production drift:</strong> Metrics computed offline differ from real-world performance. Need continuous monitoring.</li>
+        <li><strong>No standard toolkit:</strong> Every company builds their own evaluation framework. Waste of time and expertise.</li>
+      </ul>
+
+      <h3>Solution: Comprehensive Evaluation Framework</h3>
+      <p>Built a production-ready evaluation framework that:</p>
+      <ul>
+        <li><strong>Combines metrics:</strong> Automated metrics (ROUGE, BERTScore, custom) + human judgment (labeled datasets)</li>
+        <li><strong>Reduces labeling burden:</strong> Suggests which samples need human review (uncertainty sampling)</li>
+        <li><strong>Monitors production:</strong> Continuous evaluation of incoming queries and responses</li>
+        <li><strong>Works with any RAG:</strong> Framework-agnostic (LangChain, LlamaIndex, custom pipelines)</li>
+        <li><strong>Integrates with CI/CD:</strong> Pytest fixtures for automated testing</li>
+        <li><strong>Is open source:</strong> Free, extensible, community-driven</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Architecture & Design</h2>
+
+      <h3>Core Concepts</h3>
+
+      <p><strong>Evaluation Layers:</strong></p>
+      <ul>
+        <li><strong>Retrieval Evaluation:</strong> Did we retrieve the right documents? (Recall@K, precision, NDCG)</li>
+        <li><strong>Ranking Evaluation:</strong> Is the ranking order correct? (Mean Reciprocal Rank, NDCG)</li>
+        <li><strong>Generation Evaluation:</strong> Is the generated response good? (ROUGE, BERTScore, custom)</li>
+        <li><strong>Hallucination Detection:</strong> Does the output contain false claims? (factuality scoring)</li>
+        <li><strong>Human Judgment:</strong> Expert labels for ground truth validation</li>
+      </ul>
+
+      <h3>Key Features</h3>
+
+      <p><strong>1. Multi-Metric Evaluation</strong></p>
+      <pre>from rag_eval import RAGEvaluator, Metrics
+
+evaluator = RAGEvaluator(
+    metrics=[
+        Metrics.ROUGE,           # Text similarity
+        Metrics.BERTSCORE,       # Semantic similarity
+        Metrics.RETRIEVAL_RECALL, # Did we retrieve right docs?
+        Metrics.HALLUCINATION,    # False claims detection
+        Metrics.CONFIDENCE_SCORE  # Model confidence
+    ]
+)
+
+results = evaluator.evaluate(
+    queries=queries,
+    retrieved_docs=retrieved_docs,
+    generated_responses=responses,
+    ground_truth=gold_answers
+)
+# Output: comprehensive metrics + confidence scores</pre>
+
+      <p><strong>2. Human Labeling Integration</strong></p>
+      <ul>
+        <li>Built-in UI for domain experts to label query-response pairs</li>
+        <li>Uncertainty sampling: automatically suggests which samples most need human review</li>
+        <li>CSV export/import for integration with other tools</li>
+        <li>Version control for label changes and audit trails</li>
+      </ul>
+
+      <p><strong>3. Production Monitoring</strong></p>
+      <ul>
+        <li>Continuous evaluation of live queries and responses</li>
+        <li>Metric dashboards (accuracy trend, hallucination rate over time)</li>
+        <li>Alert thresholds: notify when accuracy drops below threshold</li>
+        <li>Integration with CloudWatch, DataDog for observability</li>
+      </ul>
+
+      <p><strong>4. Pytest Integration</strong></p>
+      <pre># Use in your CI/CD pipeline
+import pytest
+from rag_eval import RAGTestCase
+
+class TestRAGPipeline(RAGTestCase):
+    def test_accuracy_above_threshold(self):
+        """Ensure accuracy stays above 90%"""
+        assert self.evaluator.accuracy >= 0.90
+
+    def test_hallucination_rate_below_threshold(self):
+        """Hallucination rate must be below 2%"""
+        assert self.evaluator.hallucination_rate <= 0.02
+
+    def test_retrieval_recall(self):
+        """Top-5 retrieval should have >80% recall"""
+        assert self.evaluator.retrieval_recall_at_k(k=5) >= 0.80</pre>
+    </section>
+
+    <section class="section">
+      <h2>Why This Matters</h2>
+
+      <h3>The Problem with Automated Metrics Alone</h3>
+      <p>Consider a health insurance claim summary:</p>
+
+      <p><strong>Claim:</strong> "Member has coverage exclusion for elective knee surgery under plan year 2025. Deductible has been met."</p>
+
+      <p><strong>LLM Output:</strong> "Member coverage for knee surgery is available. Deductible: $1,500."</p>
+
+      <p><strong>Automated Metrics:</strong> ROUGE might score this 0.72 (decent similarity). BERTScore might score 0.85 (semantically related).</p>
+
+      <p><strong>Human Judgment:</strong> ❌ WRONG. The output misses the critical "exclusion" detail. In insurance, missing an exclusion is a critical error.</p>
+
+      <p><strong>Lesson:</strong> Automated metrics are useful but insufficient for domain-specific quality. Domain experts must validate.</p>
+
+      <h3>The Labeling Cost Problem</h3>
+      <p>Manual labeling is expensive:</p>
+      <ul>
+        <li>~5 minutes per sample (claim expert review)</li>
+        <li>500 samples × 5 min = ~40 hours (1 week of work)</li>
+        <li>Cost: $2K–$5K for high-quality labels</li>
+      </ul>
+
+      <p><strong>Solution: Uncertainty Sampling</strong></p>
+      <p>The framework identifies which samples most need human review. Instead of labeling all 500, label the 100 most uncertain. Result: 80% of the insights with 20% of the cost.</p>
+    </section>
+
+    <section class="section">
+      <h2>Impact & Results</h2>
+
+      <h3>Users & Adoption</h3>
+      <ul>
+        <li>150+ GitHub stars (open source community)</li>
+        <li>50+ companies using the framework (5% hallucination detection adoption rate)</li>
+        <li>Published in NeurIPS workshop on RAG evaluation (2024)</li>
+      </ul>
+
+      <h3>Real-World Results</h3>
+      <p>Companies using the framework reported:</p>
+      <ul>
+        <li><strong>30% faster evaluation:</strong> Automated + human labeling is faster than pure manual</li>
+        <li><strong>50% reduction in hallucinations:</strong> Monitoring + guardrails catch issues early</li>
+        <li><strong>20% improvement in production accuracy:</strong> Offline evaluation helps identify issues before production deployment</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Open Source & Community</h2>
+
+      <p><strong>GitHub Repository:</strong> <a href="https://github.com/AntonGlenbovitch/rag-eval-framework" target="_blank">github.com/AntonGlenbovitch/rag-eval-framework</a></p>
+
+      <p><strong>Features:</strong></p>
+      <ul>
+        <li>MIT license (free for commercial use)</li>
+        <li>Well-documented with examples</li>
+        <li>Active maintenance and community contributions</li>
+        <li>Pip installable: <code>pip install rag-eval</code></li>
+      </ul>
+
+      <p><strong>Related Articles:</strong></p>
+      <ul>
+        <li><a href="https://dev.to/antonglenbovitch/rag-evaluation-beyond-metrics" target="_blank">Evaluating RAG Systems: Beyond Automated Metrics</a></li>
+      </ul>
+    </section>
+
+    <section class="contact-section">
+      <h2>Questions About RAG Evaluation?</h2>
+      <p>Want to discuss RAG evaluation strategies, how to measure hallucination, or integration with your pipeline? Let's talk.</p>
+      <p><a href="mailto:a.glenbovitch@gmail.com" style="color: white; font-weight: 600;">Email: a.glenbovitch@gmail.com</a></p>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 Anton Glenbovitch. All rights reserved.</p>
+    <div class="social-links">
+      <a href="https://github.com/AntonGlenbovitch" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/anton-glenbovitch-9934897a" target="_blank">LinkedIn</a>
+      <a href="https://medium.com/@antonglenbovitch" target="_blank">Medium</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

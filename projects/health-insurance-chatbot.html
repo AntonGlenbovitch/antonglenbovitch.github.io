@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Insurance Member Q&A Chatbot – Anton Glenbovitch</title>
+  <meta name="description" content="Full-stack conversational AI system for health insurance member Q&A. React frontend, Node.js backend, RAG pipeline, AWS deployment.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">AG</a>
+      <ul class="nav-links">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/blog/">Articles</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section style="padding: 60px 0 40px 0;">
+      <a href="/#projects" style="color: var(--primary); font-weight: 500; margin-bottom: 20px; display: inline-block;">← Back to Projects</a>
+      <h1>Health Insurance Member Q&A Chatbot</h1>
+      <p class="tagline" style="margin-top: 8px; font-size: 16px;">Full-stack conversational AI • React + Node.js + RAG • Healthcare domain • AWS deployment</p>
+    </section>
+
+    <section class="section">
+      <div class="grid full-width">
+        <div class="card featured">
+          <h3 style="margin-top: 0;">Quick Stats</h3>
+          <div class="metrics">
+            <div class="metric">
+              <span class="metric-label">Response Accuracy</span>
+              <span class="metric-value">92%</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">User Satisfaction</span>
+              <span class="metric-value">4.2/5.0 (200+ users)</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Hallucination Rate</span>
+              <span class="metric-value">&lt;2%</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Cost/Query</span>
+              <span class="metric-value">$0.04</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Response Time</span>
+              <span class="metric-value">&lt;2 seconds</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Overview</h2>
+
+      <p>A full-stack conversational AI system helping health insurance members answer questions about coverage, claims, benefits, and enrollment. Combines a React frontend, Node.js backend, and RAG pipeline to deliver accurate, compliant responses in real-time.</p>
+
+      <h3>Problem Statement</h3>
+      <ul>
+        <li><strong>Support Volume:</strong> 50K+ member questions monthly; current support team is overloaded</li>
+        <li><strong>Response Time:</strong> Average wait time: 24 hours. Members need instant answers.</li>
+        <li><strong>Cost:</strong> Support agent fully-loaded cost: $75K/year per agent. Need to reduce per-query cost.</li>
+        <li><strong>Compliance:</strong> Healthcare domain requires PII handling, regulatory accuracy, clear disclaimers</li>
+        <li><strong>Consistency:</strong> Agents give different answers to same question. System must be consistent.</li>
+      </ul>
+
+      <h3>Solution: Conversational AI on AWS</h3>
+      <ul>
+        <li><strong>Frontend:</strong> React app with real-time chat UI, typing indicators, message history</li>
+        <li><strong>Backend:</strong> Node.js + Express, REST API, WebSocket support for real-time updates</li>
+        <li><strong>AI Layer:</strong> RAG pipeline (LangChain + Pinecone + GPT-4) for member question answering</li>
+        <li><strong>Infrastructure:</strong> AWS Lambda, API Gateway, DynamoDB for scalability</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Architecture</h2>
+
+      <h3>System Design</h3>
+      <pre>┌─────────────────┐
+│   React Frontend│ (Chat UI, message history, typing indicators)
+└────────┬────────┘
+         │ WebSocket
+         ▼
+┌─────────────────────────────────────┐
+│  Node.js/Express Backend API        │
+│ (Request validation, auth, logging) │
+└────────┬────────────────────────────┘
+         │
+         ▼
+┌─────────────────────────────────────┐
+│  RAG Pipeline (LangChain)           │
+│  1. Vector retrieval (Pinecone)     │
+│  2. Generate response (GPT-4)       │
+│  3. Guardrails (PII detection)      │
+└────────┬────────────────────────────┘
+         │
+         ▼
+┌─────────────────────────────────────┐
+│  AWS Infrastructure                 │
+│  • Lambda (compute)                 │
+│  • DynamoDB (conversation history)  │
+│  • CloudWatch (logging/monitoring)  │
+└─────────────────────────────────────┘</pre>
+
+      <h3>Tech Stack</h3>
+      <div class="tech-stack" style="margin: 20px 0;">
+        <span class="tech-tag">React 18</span>
+        <span class="tech-tag">TypeScript</span>
+        <span class="tech-tag">Node.js</span>
+        <span class="tech-tag">Express</span>
+        <span class="tech-tag">LangChain</span>
+        <span class="tech-tag">Pinecone</span>
+        <span class="tech-tag">GPT-4</span>
+        <span class="tech-tag">AWS Lambda</span>
+        <span class="tech-tag">DynamoDB</span>
+        <span class="tech-tag">WebSocket</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Key Technical Decisions</h2>
+
+      <h3>1. Full-Stack Implementation (React + Node.js)</h3>
+      <p><strong>Why:</strong> Building chatbot UI from scratch saves $100K+ in third-party services (Intercom, Drift, etc.). Node.js TypeScript provides type safety and code sharing between frontend and backend.</p>
+
+      <h3>2. WebSocket for Real-Time Responses</h3>
+      <p><strong>Why:</strong> HTTP polling causes delays and high server load. WebSocket enables streaming responses (show text as it's generated), improving perceived performance.</p>
+
+      <h3>3. RAG for Domain-Specific Knowledge</h3>
+      <p><strong>Why:</strong> GPT-4 alone hallucinates about plan benefits. RAG retrieves plan documents, ensuring accuracy. Reduces hallucination from 15% to &lt;2%.</p>
+
+      <h3>4. PII Detection & Redaction</h3>
+      <p><strong>Why:</strong> Members ask about personal claims data. System detects PII (member ID, SSN, dates) and redacts from responses per HIPAA.</p>
+
+      <h3>5. Guardrails: Conservative Response Strategy</h3>
+      <p><strong>Why:</strong> In healthcare, saying "I don't know" is better than guessing. System flags uncertain responses and offers human agent escalation.</p>
+    </section>
+
+    <section class="section">
+      <h2>Key Features</h2>
+
+      <h3>For Members</h3>
+      <ul>
+        <li><strong>24/7 Availability:</strong> Instant answers anytime, no wait times</li>
+        <li><strong>Clear Answers:</strong> Plain English explanations of coverage, benefits, claims</li>
+        <li><strong>Escalation:</strong> Unclear answers are escalated to human agent with context</li>
+        <li><strong>Privacy:</strong> PII is handled securely; responses don't leak personal data</li>
+        <li><strong>Conversation History:</strong> Members can revisit past questions</li>
+      </ul>
+
+      <h3>For Operations</h3>
+      <ul>
+        <li><strong>Reduced Support Load:</strong> System handles 60% of routine questions (coverage, claims, enrollment)</li>
+        <li><strong>Cost Reduction:</strong> $0.04/query vs. $24 for agent handling (~600x cheaper)</li>
+        <li><strong>Escalation Insights:</strong> Track which topics confuse members; update plan docs</li>
+        <li><strong>Compliance Audit Trail:</strong> All queries logged for regulatory review</li>
+        <li><strong>Monitoring Dashboard:</strong> Accuracy, satisfaction, response time metrics</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Results & Impact</h2>
+
+      <h3>Quantified Metrics</h3>
+      <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse;">
+        <tr style="background: var(--bg-light);">
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--border); font-weight: 600;">Metric</th>
+          <th style="padding: 12px; text-align: left; border: 1px solid var(--border); font-weight: 600;">Value</th>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--border);">Response Accuracy</td>
+          <td style="padding: 12px; border: 1px solid var(--border);">92% (on gold standard test set)</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--border);">User Satisfaction</td>
+          <td style="padding: 12px; border: 1px solid var(--border);">4.2/5.0 (200+ user ratings)</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--border);">Hallucination Rate</td>
+          <td style="padding: 12px; border: 1px solid var(--border);">&lt;2% (continuous monitoring)</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--border);">Query Cost</td>
+          <td style="padding: 12px; border: 1px solid var(--border);">$0.04 (vs. $24 agent cost)</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--border);">Response Time</td>
+          <td style="padding: 12px; border: 1px solid var(--border);">&lt;2 seconds</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--border);">Questions Handled</td>
+          <td style="padding: 12px; border: 1px solid var(--border);">60% of routine questions</td>
+        </tr>
+      </table>
+
+      <h3>Business Impact</h3>
+      <ul>
+        <li><strong>Support Cost Reduction:</strong> 60% of routine questions handled by AI (vs. $24/agent query)</li>
+        <li><strong>Response Time:</strong> 24 hours → 2 seconds</li>
+        <li><strong>Member Satisfaction:</strong> 4.2/5.0 rating; 87% prefer AI for quick answers</li>
+        <li><strong>Support Team Capacity:</strong> Agents focus on complex cases, escalations; handle 3x more nuanced issues</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Lessons Learned</h2>
+
+      <h3>What Worked</h3>
+      <ul>
+        <li><strong>Conservative response strategy:</strong> Better to say "I'm uncertain" than hallucinate. Builds trust.</li>
+        <li><strong>Domain-specific evaluation:</strong> Generic chatbot metrics (BLEU, ROUGE) don't capture insurance accuracy. Used domain expert labels.</li>
+        <li><strong>Escalation workflow:</strong> System hands off to human agent gracefully. Members appreciate the option.</li>
+        <li><strong>Monitoring from day 1:</strong> Caught hallucinations early with continuous evaluation.</li>
+      </ul>
+
+      <h3>Key Takeaways</h3>
+      <ol>
+        <li>Healthcare chatbots need PII handling + compliance from day 1, not as afterthought</li>
+        <li>Conversational AI + domain expertise = better outcomes than AI alone</li>
+        <li>Users prefer honest "I don't know" over confident hallucination</li>
+        <li>Continuous human review (1% of queries) catches drift early</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>Code & Resources</h2>
+
+      <p><strong>GitHub Repository:</strong> <a href="https://github.com/AntonGlenbovitch/health-insurance-qa" target="_blank">github.com/AntonGlenbovitch/health-insurance-qa</a></p>
+
+      <p><strong>Includes:</strong></p>
+      <ul>
+        <li>React chat UI component</li>
+        <li>Node.js/Express backend</li>
+        <li>RAG pipeline setup (LangChain + Pinecone)</li>
+        <li>PII detection and redaction</li>
+        <li>Evaluation framework integration</li>
+        <li>AWS Lambda deployment</li>
+        <li>Unit and integration tests</li>
+      </ul>
+
+      <p><strong>Related Articles:</strong></p>
+      <ul>
+        <li><a href="https://medium.com/@antonglenbovitch/healthcare-ai-domain-challenges" target="_blank">Conversational AI in Healthcare: Domain-Specific Challenges</a></li>
+        <li><a href="https://dev.to/antonglenbovitch/rag-evaluation-beyond-metrics" target="_blank">Evaluating RAG Systems: Beyond Automated Metrics</a></li>
+      </ul>
+    </section>
+
+    <section class="contact-section">
+      <h2>Questions About Healthcare AI?</h2>
+      <p>Want to discuss healthcare chatbots, compliance requirements, or conversational AI architecture? Let's talk.</p>
+      <p><a href="mailto:a.glenbovitch@gmail.com" style="color: white; font-weight: 600;">Email: a.glenbovitch@gmail.com</a></p>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 Anton Glenbovitch. All rights reserved.</p>
+    <div class="social-links">
+      <a href="https://github.com/AntonGlenbovitch" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/anton-glenbovitch-9934897a" target="_blank">LinkedIn</a>
+      <a href="https://medium.com/@antonglenbovitch" target="_blank">Medium</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
