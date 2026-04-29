@@ -170,7 +170,6 @@ Each page includes:
 
 Add your contact info to `index.html` footer and contact section. Currently set to:
 - **Email:** `a.glenbovitch@gmail.com`
-- **Phone:** `(203) 540-7348`
 
 ## 📄 License
 
