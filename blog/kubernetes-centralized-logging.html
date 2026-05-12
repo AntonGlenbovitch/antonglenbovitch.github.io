@@ -30,7 +30,14 @@
     <p>The goal was simple: build a reliable, scalable, secure, searchable, and alertable observability pipeline that could handle logs from more than 100 microservices without becoming fragile, expensive, or difficult to operate.</p>
     <p>The result was a production-ready logging architecture where every microservice writes structured logs to <code>stdout</code> and <code>stderr</code>, and the platform takes care of collection, buffering, processing, storage, search, dashboards, alerting, and long-term retention.</p>
     <p>The pipeline has been running successfully for six months with no major issues.</p>
-
+    
+    <figure style="margin: 30px 0;">
+      <img src="/blog/images/kubernetes-centralized-logging-observability-pipeline.png" alt="Kubernetes centralized logging observability pipeline architecture diagram" style="width: 100%; height: auto; border: 1px solid #e5e7eb; border-radius: 8px;">
+      <figcaption style="margin-top: 10px; color: #6b7280; font-size: 0.95rem;">
+        End-to-end architecture for a centralized Kubernetes logging pipeline across 100+ microservices.
+      </figcaption>
+    </figure>
+    
     <h2>The Problem</h2>
     <p>When a system grows beyond a few services, logging becomes much more than “write logs somewhere.”</p>
     <p>In a Kubernetes environment with 100+ microservices, logs are constantly generated across many pods, containers, nodes, namespaces, and environments. Without a centralized pipeline, troubleshooting becomes slow and inconsistent.</p>
