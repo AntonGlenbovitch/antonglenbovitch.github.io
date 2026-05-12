@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes Centralized Logging – Anton Glenbovitch</title>
+  <meta name="description" content="Best-in-class Kubernetes centralized logging pipeline for 100+ microservices using OpenTelemetry, Kafka, Vector, OpenSearch, Grafana, ElastAlert 2, and S3.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">AG</a>
+      <ul class="nav-links">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/blog/">Articles</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container" style="padding-top: 50px; padding-bottom: 70px; max-width: 900px;">
+    <h1>Kubernetes Centralized Logging: Best-in-Class Observability Pipeline for 100+ Microservices</h1>
+
+    <p>Six months ago, I implemented a centralized logging pipeline for Kubernetes-based microservices running in production.</p>
+    <p>The goal was simple: build a reliable, scalable, secure, searchable, and alertable observability pipeline that could handle logs from more than 100 microservices without becoming fragile, expensive, or difficult to operate.</p>
+    <p>The result was a production-ready logging architecture where every microservice writes structured logs to <code>stdout</code> and <code>stderr</code>, and the platform takes care of collection, buffering, processing, storage, search, dashboards, alerting, and long-term retention.</p>
+    <p>The pipeline has been running successfully for six months with no major issues.</p>
+
+    <h2>The Problem</h2>
+    <p>When a system grows beyond a few services, logging becomes much more than “write logs somewhere.”</p>
+    <p>In a Kubernetes environment with 100+ microservices, logs are constantly generated across many pods, containers, nodes, namespaces, and environments. Without a centralized pipeline, troubleshooting becomes slow and inconsistent.</p>
+    <p>Common problems include:</p>
+    <ul>
+      <li>Application logs are scattered across pods and nodes.</li>
+      <li>Developers need manual access to containers or clusters to inspect logs.</li>
+      <li>Important errors are discovered too late.</li>
+      <li>Log formats are inconsistent across services.</li>
+      <li>Sensitive data may appear in logs if there is no processing layer.</li>
+      <li>Storage costs grow quickly when hot and cold data are not separated.</li>
+      <li>There is no reliable way to replay, reprocess, or recover logs during downstream outages.</li>
+    </ul>
+
+    <h2>High-Level Architecture</h2>
+    <pre><code>Kubernetes Pods
+  → OpenTelemetry Collector
+  → Apache Kafka
+  → Vector
+  → OpenSearch / Elasticsearch
+  → Grafana
+  → ElastAlert 2
+  → PagerDuty / Slack / Email / Teams / Webhooks</code></pre>
+    <p>For long-term retention:</p>
+    <pre><code>Vector → Amazon S3</code></pre>
+
+    <h2>1. Kubernetes Logging Model</h2>
+    <p>Each microservice writes logs to standard output and standard error. This is preferred for containerized workloads because the application does not need to know anything about the logging backend.</p>
+    <ul>
+      <li>Application logs</li><li>Container logs</li><li>Kubernetes events</li><li>System and audit logs</li>
+    </ul>
+
+    <h2>2. Collection Layer: OpenTelemetry Collector</h2>
+    <p>The preferred collector is OpenTelemetry Collector, deployed as a DaemonSet across Kubernetes nodes. It collects from <code>stdout</code>/<code>stderr</code>, adds metadata, and forwards data downstream.</p>
+
+    <h2>3. Stream and Buffer Layer: Apache Kafka</h2>
+    <p>Kafka is the durable buffer between collection and processing, enabling high throughput, backpressure handling, replay capability, and resilience during downstream outages.</p>
+
+    <h2>4. Processing Layer: Vector</h2>
+    <p>Vector handles parsing, normalization, enrichment, transformation, routing, sensitive data redaction, error handling, and dead-letter queue workflows.</p>
+
+    <h2>5. Storage and Search: OpenSearch</h2>
+    <p>OpenSearch is the hot storage and search layer for fast investigation, analytics, and lifecycle management.</p>
+
+    <h2>6. Dashboards and Visualization: Grafana</h2>
+    <p>Grafana dashboards make logs actionable for developers, operations, support, and leadership teams.</p>
+
+    <h2>7. Alerting: ElastAlert 2</h2>
+    <p>ElastAlert 2 provides rule-based alerting and routes alerts to PagerDuty, Slack, Teams, email, and webhooks.</p>
+
+    <h2>8. Archive and Cold Storage: Amazon S3</h2>
+    <p>S3 provides long-term, cost-effective retention for compliance, audits, and reprocessing scenarios.</p>
+
+    <h2>Pipeline Guarantees</h2>
+    <ul>
+      <li><strong>Reliability:</strong> buffering, retries, and replay reduce log loss risk.</li>
+      <li><strong>Scalability:</strong> each layer scales independently.</li>
+      <li><strong>Security:</strong> RBAC, TLS, secrets management, redaction.</li>
+      <li><strong>Observability:</strong> logs, metrics, and traces under one strategy.</li>
+      <li><strong>Compliance:</strong> retention + audit support.</li>
+      <li><strong>Cost Optimization:</strong> hot/cold separation.</li>
+    </ul>
+
+    <h2>Lessons Learned</h2>
+    <ul>
+      <li>Use structured logs whenever possible.</li>
+      <li>Include service name, environment, correlation ID, request ID, and severity.</li>
+      <li>Use durable buffering (Kafka) before search storage.</li>
+      <li>Normalize formats and redact sensitive data early.</li>
+      <li>Separate hot search from cold archive.</li>
+      <li>Design alerting to avoid noise.</li>
+      <li>Monitor the logging pipeline itself.</li>
+    </ul>
+
+    <h2>Final Result</h2>
+    <p>This pipeline has been running in production for six months across more than 100 microservices. The architecture is reliable, scalable, secure, searchable, alertable, and cost-conscious.</p>
+    <p><a href="/blog/">← Back to Articles</a></p>
+  </div>
+</main>
+</body>
+</html>
