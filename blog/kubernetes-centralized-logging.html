@@ -32,7 +32,7 @@
     <p>The pipeline has been running successfully for six months with no major issues.</p>
     
     <figure style="margin: 30px 0;">
-      <img src="/blog/images/blog:images:kubernetes-centralized-logging-observability-pipeline.png" alt="Kubernetes centralized logging observability pipeline architecture diagram" style="width: 100%; height: auto; border: 1px solid #e5e7eb; border-radius: 8px;">
+      <img id="pipeline-image" src="/blog/images/blog:images:kubernetes-centralized-logging-observability-pipeline.png" alt="Kubernetes centralized logging observability pipeline architecture diagram" style="width: 100%; height: auto; border: 1px solid #e5e7eb; border-radius: 8px; cursor: zoom-in;">
       <figcaption style="margin-top: 10px; color: #6b7280; font-size: 0.95rem;">
         End-to-end architecture for a centralized Kubernetes logging pipeline across 100+ microservices.
       </figcaption>
@@ -117,5 +117,22 @@
     <p><a href="/blog/">← Back to Articles</a></p>
   </div>
 </main>
+<div id="image-modal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center; z-index: 9999; cursor: zoom-out;">
+  <img src="/blog/images/blog:images:kubernetes-centralized-logging-observability-pipeline.png" alt="Kubernetes centralized logging observability pipeline architecture diagram expanded" style="max-width: 90vw; max-height: 90vh; width: auto; height: auto; border-radius: 8px;">
+</div>
+
+<script>
+  const pipelineImage = document.getElementById('pipeline-image');
+  const imageModal = document.getElementById('image-modal');
+
+  pipelineImage.addEventListener('click', () => {
+    imageModal.style.display = 'flex';
+  });
+
+  imageModal.addEventListener('click', () => {
+    imageModal.style.display = 'none';
+  });
+</script>
+
 </body>
 </html>
