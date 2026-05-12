@@ -330,6 +330,7 @@ nav {
 }
 
 .article-item {
+  display: block;
   background: var(--bg-white);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -337,6 +338,7 @@ nav {
   margin-bottom: 16px;
   transition: all 0.3s;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .article-item:hover {
