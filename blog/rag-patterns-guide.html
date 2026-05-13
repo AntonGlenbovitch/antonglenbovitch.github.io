@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG Patterns Guide – Anton Glenbovitch</title>
+  <meta name="description" content="Expanded guide to RAG patterns: classic, hybrid, reranking, graph, temporal, agentic, and production layering strategies.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">AG</a>
+      <ul class="nav-links">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/blog/">Articles</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container" style="padding-top: 50px; padding-bottom: 70px; max-width: 900px;">
+    <h1>RAG Patterns: A Practical Guide to Retrieval Architectures</h1>
+    <p>This is a stronger expanded view of modern RAG with cleaner distinctions between common patterns and how they are used in production systems.</p>
+
+    <h2>Classic RAG</h2>
+    <p><strong>Flow:</strong> Query → Embed → Vector Search → Retrieve Top-K → LLM generates answer</p>
+    <p>Works well for simple Q&A over documents. Fast, cheap, and easy to set up, but weak for multi-hop reasoning or answers spread across many sources.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/classic-rag.png</code></p>
+
+    <h2>Hybrid RAG</h2>
+    <p><strong>Flow:</strong> Query → Keyword Search + Vector Search → Merge Results → Re-rank → LLM generates answer</p>
+    <p>Combines semantic and BM25-style retrieval. Better when exact terms, policy IDs, codes, dates, or legal citations matter.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/hybrid-rag.png</code></p>
+
+    <h2>Re-ranking RAG</h2>
+    <p><strong>Flow:</strong> Query → Retrieve Broad Candidate Set → Re-ranker Scores Results → Select Best Context → LLM generates answer</p>
+    <p>Improves precision by filtering noisy candidates with a stronger ranking model at higher latency/cost.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/reranking-rag.png</code></p>
+
+    <h2>Multi-Query RAG</h2>
+    <p><strong>Flow:</strong> Query → Generate Multiple Search Variants → Retrieve Results → Merge/Dedupe → LLM generates answer</p>
+    <p>Improves recall by searching from multiple angles when user wording differs from corpus language.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/multi-query-rag.png</code></p>
+
+    <h2>Self-Querying RAG</h2>
+    <p><strong>Flow:</strong> Query → LLM Extracts Filters → Metadata Search + Vector Search → Retrieve Context → LLM generates answer</p>
+    <p>Uses structured filters (date, author, department, region, access level) for better precision in metadata-rich corpora.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/self-querying-rag.png</code></p>
+
+    <h2>Parent-Child RAG</h2>
+    <p><strong>Flow:</strong> Query → Search Small Chunks → Retrieve Larger Parent Sections → LLM generates answer</p>
+    <p>Balances precise retrieval with richer context around each match.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/parent-child-rag.png</code></p>
+
+    <h2>Hierarchical RAG</h2>
+    <p><strong>Flow:</strong> Query → Search Summary Layer → Identify Relevant Documents/Sections → Drill Down Into Chunks → LLM generates answer</p>
+    <p>Best for very large corpora where routing from summaries to detailed evidence improves efficiency.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/hierarchical-rag.png</code></p>
+
+    <h2>GraphRAG</h2>
+    <p><strong>Flow:</strong> Query → Entity Extraction → Graph Traversal → Retrieve Connected Nodes → LLM generates answer</p>
+    <p>Captures relationships and supports multi-hop reasoning across entities and events.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/graph-rag.png</code></p>
+
+    <h2>Temporal RAG</h2>
+    <p><strong>Flow:</strong> Query → Detect Time Requirement → Retrieve Time-Filtered Evidence → Resolve Timeline → LLM generates answer</p>
+    <p>Prevents mixing facts across different points in time; critical for policy history, audits, and legal timelines.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/temporal-rag.png</code></p>
+
+    <h2>ACL / Security-Aware RAG</h2>
+    <p><strong>Flow:</strong> Query → Identify User Permissions → Filter Corpus by ACL → Retrieve Allowed Context → LLM generates answer</p>
+    <p>Enforces access controls before retrieval to prevent leakage of restricted data.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/security-aware-rag.png</code></p>
+
+    <h2>Multimodal RAG</h2>
+    <p><strong>Flow:</strong> Query → Retrieve Text + Tables + Images + PDFs + Charts → Model Interprets Mixed Context → LLM generates answer</p>
+    <p>Supports evidence beyond plain text; ingestion complexity is significantly higher.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/multimodal-rag.png</code></p>
+
+    <h2>Tool-Augmented RAG</h2>
+    <p><strong>Flow:</strong> Query → Retrieve Context → Call Tools/APIs/Databases → Combine Evidence → LLM generates answer</p>
+    <p>Combines documents with live enterprise systems for operational answers.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/tool-augmented-rag.png</code></p>
+
+    <h2>Corrective RAG</h2>
+    <p><strong>Flow:</strong> Query → Retrieve Context → Evaluate Quality → If Weak, Rewrite Query or Retrieve Again → Final Answer</p>
+    <p>Improves reliability by validating retrieval quality before answering.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/corrective-rag.png</code></p>
+
+    <h2>Agentic RAG</h2>
+    <p><strong>Flow:</strong> Query → Agent Plans Retrieval → Multi-Step Search → Tool Use → Self-Evaluation → Iteration → Final Answer</p>
+    <p>Best for complex investigations, with trade-offs in latency, cost, and debugging complexity.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/agentic-rag.png</code></p>
+
+    <h2>Federated RAG</h2>
+    <p><strong>Flow:</strong> Query → Route to Multiple Data Sources → Retrieve from Each → Normalize Results → Re-rank → LLM generates answer</p>
+    <p>Searches across distributed systems without fully centralizing all data.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/federated-rag.png</code></p>
+
+    <h2>Structured Data RAG</h2>
+    <p><strong>Flow:</strong> Query → Convert to SQL/Graph/Filter Query → Retrieve Structured Results → LLM Explains Answer</p>
+    <p>Queries structured systems directly instead of only relying on vector search.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/structured-data-rag.png</code></p>
+
+    <h2>Memory-Augmented RAG</h2>
+    <p><strong>Flow:</strong> Query → Retrieve User/Session Memory → Retrieve External Knowledge → Personalize Answer → LLM generates response</p>
+    <p>Blends document retrieval with user/session context while requiring strong privacy controls.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/memory-augmented-rag.png</code></p>
+
+    <h2>Summary-First RAG</h2>
+    <p><strong>Flow:</strong> Query → Retrieve Document Summaries → Select Relevant Docs → Retrieve Detailed Chunks → LLM generates answer</p>
+    <p>Uses summaries as a routing layer before deep retrieval in long documents.</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/summary-first-rag.png</code></p>
+
+    <h2>Evaluated RAG</h2>
+    <p><strong>Flow:</strong> Query → Retrieve → Generate Answer → Judge Against Sources → Score Faithfulness/Relevance → Return or Retry</p>
+    <p>Adds measurable quality controls (faithfulness, relevance, citation quality, refusal behavior).</p>
+    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/evaluated-rag.png</code></p>
+
+    <h2>Best Way to Think About It</h2>
+    <p>Classic RAG is the baseline. Hybrid improves retrieval. Re-ranking improves precision. Parent-child improves context quality. GraphRAG improves relationship reasoning. Temporal improves timeline accuracy. Security-aware protects sensitive data. Tool-augmented connects documents to systems. Agentic orchestrates multi-step workflows.</p>
+    <p>In production, strong systems are usually layered: hybrid search, metadata filters, re-ranking, access control, evaluation, and (when needed) agents on top.</p>
+
+    <p><a href="/blog/">← Back to Articles</a></p>
+  </div>
+</main>
+
+</body>
+</html>
