@@ -7,7 +7,8 @@
   <meta name="description" content="Expanded guide to RAG patterns: classic, hybrid, reranking, graph, temporal, agentic, and production layering strategies.">
   <link rel="stylesheet" href="../css/style.css">
   <style>
-    #classic-rag-image {
+    #classic-rag-image,
+    #hybrid-rag-image {
       cursor: zoom-in;
       max-width: 100%;
       height: auto;
@@ -67,7 +68,8 @@
     <h2>Hybrid RAG</h2>
     <p><strong>Flow:</strong> Query → Keyword Search + Vector Search → Merge Results → Re-rank → LLM generates answer</p>
     <p>Combines semantic and BM25-style retrieval. Better when exact terms, policy IDs, codes, dates, or legal citations matter.</p>
-    <p><strong>Image URL:</strong> <code>/blog/images/rag-patterns/hybrid-rag.png</code></p>
+    <p><strong>Image URL:</strong> <a href="/assets/blog/images/rag-patterns/hybrid-rag.png"><code>/assets/blog/images/rag-patterns/hybrid-rag.png</code></a></p>
+    <img id="hybrid-rag-image" src="/assets/blog/images/rag-patterns/hybrid-rag.png" alt="Hybrid RAG flow diagram">
 
     <h2>Re-ranking RAG</h2>
     <p><strong>Flow:</strong> Query → Retrieve Broad Candidate Set → Re-ranker Scores Results → Select Best Context → LLM generates answer</p>
@@ -162,6 +164,10 @@
   </div>
 </main>
 
+<div id="hybrid-rag-modal" class="image-modal-overlay" aria-hidden="true">
+  <img src="/assets/blog/images/rag-patterns/hybrid-rag.png" alt="Hybrid RAG flow diagram expanded">
+</div>
+
 <div id="classic-rag-modal" class="image-modal-overlay" aria-hidden="true">
   <img src="/assets/blog/images/rag-patterns/classic-rag.png" alt="Classic RAG flow diagram expanded">
 </div>
@@ -169,6 +175,8 @@
 <script>
   const classicRagImage = document.getElementById('classic-rag-image');
   const classicRagModal = document.getElementById('classic-rag-modal');
+  const hybridRagImage = document.getElementById('hybrid-rag-image');
+  const hybridRagModal = document.getElementById('hybrid-rag-modal');
 
   classicRagImage.addEventListener('click', () => {
     classicRagModal.classList.add('is-open');
@@ -178,6 +186,16 @@
   classicRagModal.addEventListener('click', () => {
     classicRagModal.classList.remove('is-open');
     classicRagModal.setAttribute('aria-hidden', 'true');
+  });
+
+  hybridRagImage.addEventListener('click', () => {
+    hybridRagModal.classList.add('is-open');
+    hybridRagModal.setAttribute('aria-hidden', 'false');
+  });
+
+  hybridRagModal.addEventListener('click', () => {
+    hybridRagModal.classList.remove('is-open');
+    hybridRagModal.setAttribute('aria-hidden', 'true');
   });
 </script>
 
