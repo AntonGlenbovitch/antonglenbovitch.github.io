@@ -6,6 +6,37 @@
   <title>RAG Patterns Guide – Anton Glenbovitch</title>
   <meta name="description" content="Expanded guide to RAG patterns: classic, hybrid, reranking, graph, temporal, agentic, and production layering strategies.">
   <link rel="stylesheet" href="../css/style.css">
+  <style>
+    #classic-rag-image {
+      cursor: zoom-in;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 0.75rem;
+    }
+
+    .image-modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      cursor: zoom-out;
+    }
+
+    .image-modal-overlay.is-open {
+      display: flex;
+    }
+
+    .image-modal-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+    }
+  </style>
 </head>
 <body>
 <header>
@@ -30,7 +61,8 @@
     <h2>Classic RAG</h2>
     <p><strong>Flow:</strong> Query → Embed → Vector Search → Retrieve Top-K → LLM generates answer</p>
     <p>Works well for simple Q&A over documents. Fast, cheap, and easy to set up, but weak for multi-hop reasoning or answers spread across many sources.</p>
-    <p><strong>Image URL:</strong> <a href="/blog/images/rag-patterns/classic-rag.png"><code>/blog/images/rag-patterns/classic-rag.png</code></a></p>
+    <p><strong>Image URL:</strong> <a href="/assets/blog/images/rag-patterns/classic-rag.png"><code>/assets/blog/images/rag-patterns/classic-rag.png</code></a></p>
+    <img id="classic-rag-image" src="/assets/blog/images/rag-patterns/classic-rag.png" alt="Classic RAG flow diagram">
 
     <h2>Hybrid RAG</h2>
     <p><strong>Flow:</strong> Query → Keyword Search + Vector Search → Merge Results → Re-rank → LLM generates answer</p>
@@ -129,6 +161,25 @@
     <p><a href="/blog/">← Back to Articles</a></p>
   </div>
 </main>
+
+<div id="classic-rag-modal" class="image-modal-overlay" aria-hidden="true">
+  <img src="/assets/blog/images/rag-patterns/classic-rag.png" alt="Classic RAG flow diagram expanded">
+</div>
+
+<script>
+  const classicRagImage = document.getElementById('classic-rag-image');
+  const classicRagModal = document.getElementById('classic-rag-modal');
+
+  classicRagImage.addEventListener('click', () => {
+    classicRagModal.classList.add('is-open');
+    classicRagModal.setAttribute('aria-hidden', 'false');
+  });
+
+  classicRagModal.addEventListener('click', () => {
+    classicRagModal.classList.remove('is-open');
+    classicRagModal.setAttribute('aria-hidden', 'true');
+  });
+</script>
 
 </body>
 </html>
