@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spec-Driven Development – Anton Glenbovitch</title>
+  <meta name="description" content="Why AI coding needs Spec-Driven Development to move from experimentation to production discipline with clear contracts, planning, traceability, and verification.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">AG</a>
+      <ul class="nav-links">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/blog/">Articles</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container" style="padding-top: 50px; padding-bottom: 70px; max-width: 900px;">
+    <p class="article-meta">🗓️ June 2026 • 📰 Website • ⏱️ 12 min read</p>
+    <h1>Spec-Driven Development: Moving AI Coding from Experimentation to Production Discipline</h1>
+    <p>AI coding tools are powerful, but they also expose a serious problem: generating code is now easy; controlling the quality, intent, architecture, and long-term maintainability of that code is much harder.</p>
+    <p>This is where <strong>Spec-Driven Development</strong>, or SDD, becomes important.</p>
+    <p>For small experiments, a conversational “vibe coding” approach can work. You describe what you want, the AI generates code, you test it, and you keep iterating. That is useful during discovery. It helps explore ideas quickly. It can help validate whether something is worth building.</p>
+    <p>But once a project becomes serious, that approach starts to break down.</p>
+    <p>The AI fixes one bug and breaks three other files. New features ignore existing design patterns. A change works locally but violates architecture boundaries. A prompt produces something that looks correct, but nobody can clearly explain why the code changed or which requirement it satisfies.</p>
+    <p>At that point, the project needs to move from conversation-driven coding to <strong>spec-driven development</strong>.</p>
+    <h2>What Spec-Driven Development Means</h2>
+    <p>Spec-Driven Development is not just writing documentation before coding. Documentation by itself is not enough.</p>
+    <p>A better way to think about it is this:</p>
+    <blockquote>
+      <p>Spec-Driven Development is contract-first development.</p>
+    </blockquote>
+    <p>The goal is to define expected behavior, technical boundaries, data contracts, and verification rules before implementation begins. The specification becomes the source of truth. Code changes are then tied directly to approved requirements, and verification confirms that the implementation matches the spec.</p>
+    <p>This matters even more when AI agents are involved, because AI systems are very good at producing code that appears reasonable while quietly making assumptions, changing unrelated files, or drifting away from the original intent.</p>
+    <p>A strong SDD process gives the AI less room to invent and more structure to follow.</p>
+    <h2>The Four-Phase SDD Workflow</h2>
+    <p>A practical SDD framework should follow a gated four-phase pipeline:</p>
+    <ol>
+      <li><strong>Specify</strong></li>
+      <li><strong>Plan</strong></li>
+      <li><strong>Implement</strong></li>
+      <li><strong>Verify</strong></li>
+    </ol>
+    <p>Each phase has a different purpose. Mixing them together is one of the biggest reasons AI-assisted development becomes messy.</p>
+    <h2>Phase 1: Specify</h2>
+    <p>The first phase is to define the requirement as a clear, version-controlled contract.</p>
+    <p>This can include:</p>
+    <ul>
+      <li>Markdown specification files</li>
+      <li>OpenAPI schemas</li>
+      <li>TypeScript interfaces</li>
+      <li>JSON schemas</li>
+      <li>database contracts</li>
+      <li>acceptance criteria</li>
+      <li>non-functional requirements</li>
+      <li>security and compliance rules</li>
+    </ul>
+    <p>The important point is that the specification should be explicit and testable.</p>
+    <p>A weak requirement sounds like this:</p>
+    <blockquote>
+      <p>The review should be accurate.</p>
+    </blockquote>
+    <p>That is too vague. It gives both humans and AI too much room to interpret what “accurate” means.</p>
+    <p>A stronger requirement looks like this:</p>
+    <blockquote>
+      <p>REQ-004: The review agent must not generate inline code review comments for files outside the current pull request diff unless the comment is explicitly marked as architecture-level feedback.</p>
+    </blockquote>
+    <p>That requirement can be tested. It has a clear boundary. It tells the implementation what is allowed and what is not allowed.</p>
+    <p>Good specifications should include requirement IDs, examples, edge cases, expected behavior, and failure conditions. For enterprise systems, they should also include security, observability, permission, audit, and rollback requirements.</p>
+    <h2>Phase 2: Plan</h2>
+    <p>Planning must be separated from implementation.</p>
+    <p>This is where many AI coding workflows go wrong. The agent receives a task and immediately starts modifying code. That may be acceptable in a small prototype, but it is dangerous in a production system.</p>
+    <p>Before changing code, the system should produce a plan that explains:</p>
+    <ul>
+      <li>which modules are affected</li>
+      <li>which dependencies are involved</li>
+      <li>what data flows will change</li>
+      <li>what architecture decisions are being made</li>
+      <li>what risks exist</li>
+      <li>what tests are required</li>
+      <li>whether database migrations are needed</li>
+      <li>whether security or compliance review is required</li>
+    </ul>
+    <p>This phase should also include architecture boundary checks.</p>
+    <p>For example:</p>
+    <blockquote>
+      <p>UI modules must not directly access database repositories. All database access must go through service-layer interfaces.</p>
+    </blockquote>
+    <p>That rule should not live only in someone’s head. It should be documented, tested, and enforced through static analysis, dependency checks, semantic grep, or architecture tests.</p>
+    <p>The planning phase answers the question:</p>
+    <blockquote>
+      <p>Should this change be made this way?</p>
+    </blockquote>
+    <p>The implementation phase should not begin until the answer is clear.</p>
+    <h2>Phase 3: Implement</h2>
+    <p>Implementation should only happen after the specification and plan are accepted.</p>
+    <p>The key rule is simple:</p>
+    <blockquote>
+      <p>No implementation without a requirement ID.</p>
+    </blockquote>
+    <p>Every meaningful code change should map back to a requirement. This creates traceability.</p>
+    <p>For example:</p>
+    <blockquote>
+      <p>Implements: REQ-004, REQ-005&lt;br&gt;</p>
+      <p>Affected modules: review-agent, prompt-builder, policy-checker&lt;br&gt;</p>
+      <p>Tests: test_feedback_scope.py, test_architecture_boundaries.py</p>
+    </blockquote>
+    <p>This is especially important for AI-generated changes. Without traceability, an AI agent may touch files unrelated to the task, introduce hidden assumptions, or “improve” code that was not part of the requirement.</p>
+    <p>In a production-grade workflow, the implementation phase should be narrow, controlled, and reviewable.</p>
+    <p>The AI should not be rewarded for producing the largest possible patch. It should be guided to produce the smallest correct change that satisfies the approved spec.</p>
+    <h2>Phase 4: Verify</h2>
+    <p>Verification is where the process proves that the implementation matches the specification.</p>
+    <p>This should include more than basic unit tests.</p>
+    <p>A serious verification process may include:</p>
+    <ul>
+      <li>unit tests</li>
+      <li>integration tests</li>
+      <li>contract tests</li>
+      <li>schema validation</li>
+      <li>property-based tests</li>
+      <li>regression tests</li>
+      <li>security checks</li>
+      <li>dependency boundary checks</li>
+      <li>architecture tests</li>
+      <li>static analysis</li>
+      <li>semantic guardrails</li>
+      <li>human review for high-risk changes</li>
+    </ul>
+    <p>The most important verification question is not only:</p>
+    <blockquote>
+      <p>Does the code work?</p>
+    </blockquote>
+    <p>It is also:</p>
+    <blockquote>
+      <p>Did the code implement only what the specification allowed?</p>
+    </blockquote>
+    <p>That second question matters because AI agents often overreach. They may add extra behavior, change unrelated logic, or introduce patterns that conflict with the existing system.</p>
+    <p>A good verification gate should catch that.</p>
+    <h2>When to Use Full Spec-Driven Development</h2>
+    <p>Not every project needs a heavy SDD process from day one.</p>
+    <p>If you are building a quick prototype, a short markdown spec and a few tests may be enough. But a project should move into full Spec-Driven Development when any of the following conditions are true:</p>
+    <ul>
+      <li>the project will last more than three months</li>
+      <li>multiple developers are contributing</li>
+      <li>the system is already in production</li>
+      <li>the application handles user data</li>
+      <li>compliance or auditability matters</li>
+      <li>financial, legal, or security risks exist</li>
+      <li>regressions are expensive</li>
+      <li>architecture boundaries matter</li>
+      <li>AI agents are allowed to modify code</li>
+      <li>business logic is complex</li>
+      <li>onboarding new developers is becoming difficult</li>
+    </ul>
+    <p>The more people, risk, and time involved, the more valuable SDD becomes.</p>
+    <h2>From Vibe Coding to Living Specs</h2>
+    <p>There is nothing wrong with starting a project through exploration. Early-stage AI-assisted coding can be useful when the goal is discovery.</p>
+    <p>The problem starts when discovery becomes production without a transition.</p>
+    <p>A project should move from vibe coding to spec-driven development when you see these warning signs:</p>
+    <ul>
+      <li>the AI fixes one issue but breaks unrelated files</li>
+      <li>the same bug keeps coming back</li>
+      <li>new features ignore existing design patterns</li>
+      <li>prompts require repeated correction</li>
+      <li>multiple developers need to understand the codebase</li>
+      <li>tests pass but the behavior does not match business intent</li>
+      <li>the agent modifies files outside the requested scope</li>
+      <li>nobody can clearly explain the final design</li>
+      <li>real users or business processes will depend on the system</li>
+    </ul>
+    <p>At that point, continuing with only conversation-driven coding becomes risky.</p>
+    <p>The correct move is to stop, formalize the requirements, define the architecture, and create a living spec.</p>
+    <h2>Living Specs Are Not Optional</h2>
+    <p>A specification is only useful if it stays connected to the code.</p>
+    <p>If the code changes but the spec does not, the spec becomes stale documentation. If the spec changes but the tests do not, the requirements are not enforceable. If the implementation cannot be traced back to a requirement, the project loses control.</p>
+    <p>A strong SDD workflow should enforce this rule:</p>
+    <blockquote>
+      <p>If behavior changes, the spec must change in the same pull request.</p>
+    </blockquote>
+    <p>That one rule prevents a lot of long-term damage.</p>
+    <p>Living specs should be stored in version control, reviewed like code, and used as input for automated checks. They should explain both the “what” and the “why.”</p>
+    <p>The “what” defines expected behavior.</p>
+    <p>The “why” explains the rationale, tradeoffs, constraints, and assumptions behind the decision.</p>
+    <p>That context is extremely valuable for human developers and AI agents.</p>
+    <h2>Avoiding SDD Pitfalls</h2>
+    <p>Spec-Driven Development can fail if it becomes bureaucracy.</p>
+    <p>The goal is not to create documents for the sake of documents. The goal is to create useful contracts that improve implementation quality and reduce risk.</p>
+    <p>Common mistakes include:</p>
+    <h3>Writing vague specs</h3>
+    <p>Natural language is useful, but vague natural language is dangerous.</p>
+    <p>Phrases like “make it better,” “improve performance,” or “handle errors properly” are not enough. A good spec should define what “better” means, how performance will be measured, and which errors must be handled.</p>
+    <h3>Treating markdown as machine-readable</h3>
+    <p>A markdown file is not automatically machine-readable. It needs structure.</p>
+    <p>Useful specs include requirement IDs, examples, schemas, acceptance criteria, checklists, and links to tests.</p>
+    <h3>Letting specs drift</h3>
+    <p>If the spec is not updated when behavior changes, it becomes misleading. Outdated documentation can be worse than no documentation because it creates false confidence.</p>
+    <h3>Overloading every small task</h3>
+    <p>Not every minor change needs a full architecture document. SDD should be scaled to the risk and maturity of the project.</p>
+    <p>A small prototype may need light SDD. A production system handling user data needs much stronger gates.</p>
+    <h3>Relying only on AI review</h3>
+    <p>AI can help generate plans, compare code against specs, and detect inconsistencies. But high-risk business, security, legal, and architecture decisions still require human judgment.</p>
+    <h2>SDD and Enterprise AI Development</h2>
+    <p>For enterprise software, SDD is not just a coding style. It becomes a governance model.</p>
+    <p>It helps answer critical questions:</p>
+    <ul>
+      <li>Who approved this requirement?</li>
+      <li>Why was this design chosen?</li>
+      <li>Which files changed because of this requirement?</li>
+      <li>Which tests prove that the requirement was satisfied?</li>
+      <li>Did the change violate architecture boundaries?</li>
+      <li>Was the security impact reviewed?</li>
+      <li>Can we audit this decision later?</li>
+    </ul>
+    <p>These questions matter in real production environments.</p>
+    <p>They matter when systems handle customer data. They matter when teams scale. They matter when compliance is involved. They matter when AI agents are writing or modifying code.</p>
+    <p>The future of AI-assisted software development is not just faster coding. Faster coding without control creates faster chaos.</p>
+    <p>The real value comes from combining AI speed with engineering discipline.</p>
+    <h2>Final Thought</h2>
+    <p>Spec-Driven Development is not about slowing teams down. It is about preventing uncontrolled acceleration.</p>
+    <p>AI can generate code quickly, but production systems need more than speed. They need clarity, traceability, architecture, verification, and accountability.</p>
+    <p>The strongest AI development workflows will not be the ones where agents are allowed to freely improvise.</p>
+    <p>They will be the ones where agents operate inside well-defined contracts, follow approved plans, make traceable changes, and pass meaningful verification gates.</p>
+    <p>That is how AI coding moves from experimentation to production engineering.</p>
+    <p><a href="/blog/">← Back to Articles</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 Anton Glenbovitch. All rights reserved.</p>
+    <div class="social-links">
+      <a href="https://github.com/AntonGlenbovitch" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/anton-glenbovitch-9934897a" target="_blank">LinkedIn</a>
+      <a href="https://medium.com/@antonglenbovitch" target="_blank">Medium</a>
+      <a href="https://dev.to/antonglenbovitch" target="_blank">Dev.to</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
