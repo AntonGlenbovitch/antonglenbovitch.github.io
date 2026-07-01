@@ -29,7 +29,7 @@
     <section style="padding: 60px 0 40px 0;">
       <a href="/#projects" style="color: var(--primary); font-weight: 500; margin-bottom: 20px; display: inline-block;">← Back to Projects</a>
       <h1>Enterprise Claim AI Platform</h1>
-      <p class="tagline" style="margin-top: 8px; font-size: 16px;">Production RAG system for insurance claim analysis • Health insurance domain • 50K+ daily transactions</p>
+      <p class="tagline" style="margin-top: 8px; font-size: 16px;">Production-oriented reference architecture for insurance claim analysis • Health insurance domain • RAG + AWS workflow orchestration</p>
     </section>
 
     <section class="section">
@@ -38,28 +38,28 @@
           <h3 style="margin-top: 0;">Quick Stats</h3>
           <div class="metrics">
             <div class="metric">
-              <span class="metric-label">Accuracy</span>
-              <span class="metric-value">94%</span>
+              <span class="metric-label">Architecture</span>
+              <span class="metric-value">Event-driven AWS workflow</span>
             </div>
             <div class="metric">
-              <span class="metric-label">Processing Speed</span>
-              <span class="metric-value">&lt;2 seconds/claim</span>
+              <span class="metric-label">Retrieval</span>
+              <span class="metric-value">RAG with policy-context grounding</span>
             </div>
             <div class="metric">
-              <span class="metric-label">Daily Volume</span>
-              <span class="metric-value">50,000+ claims</span>
+              <span class="metric-label">AI Reasoning</span>
+              <span class="metric-value">Bedrock / Claude-style orchestration</span>
             </div>
             <div class="metric">
-              <span class="metric-label">Cost Optimization</span>
-              <span class="metric-value">66% reduction ($0.12 → $0.04/claim)</span>
+              <span class="metric-label">Governance</span>
+              <span class="metric-value">audit trail + evaluation checks</span>
             </div>
             <div class="metric">
-              <span class="metric-label">Hallucination Rate</span>
-              <span class="metric-value">&lt;2%</span>
+              <span class="metric-label">Deployment Assets</span>
+              <span class="metric-value">FastAPI + Terraform patterns</span>
             </div>
             <div class="metric">
-              <span class="metric-label">Annual Savings</span>
-              <span class="metric-value">$1.2M</span>
+              <span class="metric-label">Status</span>
+              <span class="metric-value">portfolio/reference implementation</span>
             </div>
           </div>
         </div>
@@ -68,21 +68,15 @@
 
     <section class="section">
       <h2>Overview</h2>
-      <p>The Enterprise Claim AI Platform is a production-grade system for analyzing insurance claims using retrieval-augmented generation (RAG) architecture. It processes claims with structured and unstructured data (forms, medical reports, provider notes), extracts key information, and generates actionable summaries.</p>
+      <p>The Enterprise Claim AI Platform is a production-oriented reference architecture for AI-assisted insurance claim analysis. It shows how a regulated claims workflow can combine RAG-based policy retrieval, fraud-risk scoring, LLM reasoning, workflow orchestration, audit logging, and human review.</p>
 
       <p>The system was designed from day one for production reliability: rigorous evaluation metrics, hallucination detection, cost optimization, and continuous monitoring.</p>
 
       <h3>Problem Statement</h3>
-      <ul>
-        <li><strong>Scale:</strong> 50,000+ claims daily, each requiring analysis and categorization</li>
-        <li><strong>Complexity:</strong> Claims contain structured data (forms), unstructured text (medical notes), and regulatory language</li>
-        <li><strong>Cost:</strong> Manual review costs $24/claim. Need to reduce processing cost without sacrificing accuracy</li>
-        <li><strong>Quality:</strong> Errors in claim analysis have downstream impact on member service and compliance</li>
-        <li><strong>Latency:</strong> Claims needed analysis within 2 hours of filing (currently 2+ hours manual review)</li>
-      </ul>
+      <p>Claim workflows often involve structured forms, unstructured documents, policy language, medical notes, and compliance-sensitive decisions. The engineering challenge is not simply generating a summary; it is designing a workflow that retrieves the right context, avoids unsupported conclusions, tracks decision metadata, and routes uncertain cases to human review.</p>
 
-      <h3>Solution: RAG on AWS</h3>
-      <p>Built a retrieval-augmented generation system that combines:</p>
+      <h3>Reference Solution: RAG Workflow on AWS</h3>
+      <p>Designed a reference workflow that combines document ingestion, hybrid retrieval, LLM reasoning, evaluation hooks, audit logging, and human fallback. The implementation is meant to demonstrate production design patterns rather than claim live deployment at a specific insurer.</p>
       <ul>
         <li><strong>Data ingestion:</strong> Parse PDFs, forms, medical notes; normalize data</li>
         <li><strong>Indexing:</strong> Vector embeddings + keyword indexes for hybrid retrieval</li>
