@@ -32,16 +32,19 @@ function resize() {
 }
 
 // ---------- adjustable state (driven by the buttons) ----------
-let sizeScale = 1.0;      // particle size multiplier, 0.5x – 2.0x
-let count = 900;          // live particle count
+let sizeScale = 0.1;      // particle size multiplier, 0.1x – 2.0x
+let count = 12000;        // live particle count
 let colorCount = 2;       // active liquids, 1 – 6
 let mode3D = false;       // 2D / 3D toggle
 let viewAngle = 0;        // camera orbit angle in 3D mode
 
-const MAX = 3000;
-const CHUNK = 200;
+const MIN_SIZE_SCALE = 0.1;
+const MAX_SIZE_SCALE = 2.0;
+const MIN_PARTICLES = 100;
+const MAX = 12000;
+const CHUNK = 1000;
 
-const PR = () => bowlR * 0.030 * sizeScale;
+const PR = () => Math.max(1, bowlR * 0.030 * sizeScale);
 
 // ---------- simulation parameters ----------
 const GRAVITY = 1400;
@@ -90,12 +93,13 @@ function seedAll() {
 }
 
 // ---------- spatial hash grid (2D cells + z bucket in 3D) ----------
-let cellSize, gridW, gridH, gridD, gridHeads, gridNext;
+let cellSize, depthCellSize, gridW, gridH, gridD, gridHeads, gridNext;
 function buildGridStorage() {
-  cellSize = Math.max(4, PR() * 2);
+  cellSize = Math.max(2, PR() * 2);
+  depthCellSize = Math.max(cellSize, bowlR * 0.08);
   gridW = Math.ceil(W / cellSize) + 1;
   gridH = Math.ceil(H / cellSize) + 1;
-  gridD = Math.ceil((bowlR * 2) / cellSize) + 1;
+  gridD = mode3D ? Math.ceil((bowlR * 2) / depthCellSize) + 1 : 1;
   gridHeads = new Int32Array(gridW * gridH * gridD);
   gridNext = new Int32Array(MAX);
 }
@@ -103,7 +107,7 @@ function buildGridStorage() {
 function cellOf(i) {
   const gx = Math.max(0, Math.min(gridW - 1, (px[i] / cellSize) | 0));
   const gy = Math.max(0, Math.min(gridH - 1, (py[i] / cellSize) | 0));
-  const gz = Math.max(0, Math.min(gridD - 1, ((pz[i] + bowlR) / cellSize) | 0));
+  const gz = Math.max(0, Math.min(gridD - 1, ((pz[i] + bowlR) / depthCellSize) | 0));
   return (gz * gridH + gy) * gridW + gx;
 }
 
@@ -156,8 +160,8 @@ function shake() {
 // ---------- buttons ----------
 const $ = id => document.getElementById(id);
 
-$("szUp").onclick = () => { sizeScale = Math.min(2.0, sizeScale * 1.25); sizeChanged(); };
-$("szDn").onclick = () => { sizeScale = Math.max(0.5, sizeScale / 1.25); sizeChanged(); };
+$("szUp").onclick = () => { sizeScale = Math.min(MAX_SIZE_SCALE, sizeScale * 1.25); sizeChanged(); };
+$("szDn").onclick = () => { sizeScale = Math.max(MIN_SIZE_SCALE, sizeScale / 1.25); sizeChanged(); };
 function sizeChanged() {
   $("szV").textContent = sizeScale.toFixed(1) + "×";
   buildGridStorage();
@@ -175,7 +179,7 @@ $("pcUp").onclick = () => {
   $("pcV").textContent = count;
 };
 $("pcDn").onclick = () => {
-  count = Math.max(100, count - CHUNK);
+  count = Math.max(MIN_PARTICLES, count - CHUNK);
   $("pcV").textContent = count;
 };
 
@@ -190,6 +194,7 @@ $("dim").onclick = () => {
   mode3D = !mode3D;
   $("dim").textContent = "3D: " + (mode3D ? "on" : "off");
   $("dim").classList.toggle("on", mode3D);
+  buildGridStorage();
   if (!mode3D) {
     // collapse depth back to the 2D plane
     for (let i = 0; i < MAX; i++) { pz[i] = 0; vz[i] = 0; }
@@ -216,7 +221,7 @@ function step(dt) {
   for (let i = 0; i < count; i++) {
     const gx = Math.max(0, Math.min(gridW - 1, (px[i] / cellSize) | 0));
     const gy = Math.max(0, Math.min(gridH - 1, (py[i] / cellSize) | 0));
-    const gz = Math.max(0, Math.min(gridD - 1, ((pz[i] + bowlR) / cellSize) | 0));
+    const gz = Math.max(0, Math.min(gridD - 1, ((pz[i] + bowlR) / depthCellSize) | 0));
     const zLo = mode3D ? -1 : 0, zHi = mode3D ? 1 : 0;
 
     for (let oz = zLo; oz <= zHi; oz++) {
