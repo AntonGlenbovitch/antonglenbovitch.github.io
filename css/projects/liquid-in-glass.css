@@ -201,7 +201,8 @@ button:active { transform: scale(0.94); }
 
 @media (max-width: 760px) {
   .hero-panel { top: 12px; left: 12px; width: calc(100vw - 24px); padding: 18px; }
-  .hud { display: none; }
-  .instruction-grid { grid-template-columns: 1fr; }
+  .lede,
+  .hud,
+  .instruction-grid { display: none; }
   .bar { bottom: 12px; }
 }
