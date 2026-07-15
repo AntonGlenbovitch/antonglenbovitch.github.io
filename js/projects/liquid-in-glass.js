@@ -15,8 +15,19 @@ function resize() {
   canvas.style.height = H + "px";
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   cx = W > 900 ? W * 0.62 : W / 2;
-  cy = W > 760 ? H * 0.53 : H * 0.50;
-  bowlR = Math.min(W, H) * (W > 760 ? 0.34 : 0.30);
+
+  if (W > 760) {
+    cy = H * 0.53;
+    bowlR = Math.min(W, H) * 0.34;
+  } else {
+    const controls = document.querySelector(".bar");
+    const controlsHeight = controls ? controls.offsetHeight : 0;
+    const controlsClearance = controlsHeight + 28;
+
+    bowlR = Math.min(W, Math.max(260, H - controlsClearance)) * 0.28;
+    cy = Math.min(H * 0.48, H - controlsClearance - bowlR - 12);
+  }
+
   buildGridStorage();
 }
 
